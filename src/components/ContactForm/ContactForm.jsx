@@ -1,13 +1,9 @@
-import {Component} from "react";
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { Formik} from "formik";
 import { Input, Button, FormStyled, Label, Error} from './ContactForm.styled'
 
-const initialValues = {
-    name: '',
-    number: '',
-}
+
 
 const schema = Yup.object().shape({
    name: Yup.string()
@@ -22,19 +18,19 @@ const schema = Yup.object().shape({
   .required('A phone number is required'),
  });
 
-class ContactForm extends Component {
+const INITIAL_VALUES = {
+    name: '',
+    number: '',
+}
+function ContactForm ({onAddContact}) {
 
-    handleSubmit = (values, { resetForm }) => {
-        console.log(values);
-        this.props.handleSubmit(values);
+    const handleSubmit = (values, { resetForm }) => {
+        onAddContact(values);
         resetForm();
     }
     
-    // const { name, number } = values;
-    // 
-    render(){
         return (
-            <Formik initialValues={initialValues} validationSchema={schema} onSubmit={this.handleSubmit}>
+            <Formik initialValues={INITIAL_VALUES} validationSchema={schema} onSubmit={handleSubmit}>
                 <FormStyled autoComplete="off">
                     <Label htmlFor="name">Name
                         <Input type="text"
@@ -62,7 +58,7 @@ class ContactForm extends Component {
             </Formik>
         );
     }
-}
+
 
 
 ContactForm.propTypes = {
